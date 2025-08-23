@@ -7,7 +7,7 @@ import customerRoutes from "./routes/customerRoutes.js";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173", // React app URL
+  origin: "https://machine-test-flax.vercel.app/", // React app URL
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   credentials: true,
 }));
