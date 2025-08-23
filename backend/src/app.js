@@ -1,12 +1,20 @@
 import express from "express";
+import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import agentRoutes from "./routes/agentRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5173", // React app URL
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  credentials: true,
+}));
+
+
 app.use(express.json());
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/agents", agentRoutes);
 app.use("/api/customers", customerRoutes);
