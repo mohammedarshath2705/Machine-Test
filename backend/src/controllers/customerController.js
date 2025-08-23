@@ -72,14 +72,25 @@ export const uploadCustomers = async (req, res) => {
 };
 
 // 📌 Get all customers with agent info
+// 📌 Get all customers with agent info
 export const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find().populate("agent", "name email phone");
-    res.json(customers);
+
+    const result = customers.map(c => ({
+      _id: c._id,
+      FirstName: c.firstName,          // map lowercase DB → uppercase CSV style
+      Phone: c.phone,
+      Notes: c.notes,
+      agentName: c.agent ? c.agent.name : "Unassigned",
+    }));
+
+    res.json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // 📌 Get customers by specific agent
 export const getCustomersByAgent = async (req, res) => {
