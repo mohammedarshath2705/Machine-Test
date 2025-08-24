@@ -16,7 +16,7 @@ export default function Customer() {
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Fetch customers
+  
   const fetchCustomers = async () => {
     try {
       const res = await api.get("/customers");
@@ -30,7 +30,7 @@ export default function Customer() {
     fetchCustomers();
   }, []);
 
-  // Handle file upload
+  
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -45,18 +45,15 @@ export default function Customer() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // ✅ Refresh customers after upload
       await fetchCustomers();
 
       setMessage({ type: "success", text: `${file.name} uploaded successfully!` });
 
-      // ✅ Auto-hide after 3s
       setTimeout(() => setMessage(null), 3000);
     } catch (err) {
       console.error(err);
       setMessage({ type: "error", text: `Upload failed for ${file?.name}` });
 
-      // ✅ Auto-hide after 3s
       setTimeout(() => setMessage(null), 3000);
     } finally {
       setUploading(false);
@@ -72,7 +69,6 @@ export default function Customer() {
       viewport={{ once: true }}
       className="bg-blue-200/50 backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8"
     >
-      {/* Upload Section */}
       <div className="mb-6 flex flex-col items-center space-y-3">
         <button
           type="button"
@@ -90,7 +86,6 @@ export default function Customer() {
           onChange={handleFileChange}
         />
 
-        {/* ✅ Upload Message */}
         {message && (
           <p
             className={`text-sm font-medium transition-opacity ${
@@ -102,7 +97,6 @@ export default function Customer() {
         )}
       </div>
 
-      {/* Customers List */}
       <h3 className="text-xl font-semibold text-gray-800 mb-4">
         Customers List
       </h3>

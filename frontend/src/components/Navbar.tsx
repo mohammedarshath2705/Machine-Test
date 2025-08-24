@@ -17,7 +17,6 @@ export default function Navbar({ onScrollToAgent, onScrollToCustomer }: NavbarPr
     <nav className="fixed top-0 left-0 w-full z-50 bg-white/20 backdrop-blur-md shadow-md">
       <div className="container mx-auto flex items-center justify-between py-3 px-6">
         
-        {/* Centered Nav Links */}
         <div className="flex-1 flex justify-center gap-8">
           <button
             onClick={onScrollToAgent}
@@ -33,7 +32,6 @@ export default function Navbar({ onScrollToAgent, onScrollToCustomer }: NavbarPr
           </button>
         </div>
 
-        {/* Logout Button */}
         <div>
           <button
             onClick={logout}

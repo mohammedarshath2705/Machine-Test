@@ -16,23 +16,18 @@ export default function Dashboard() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Gradient Background without pink */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-200 via-green-200 to-indigo-200 animate-gradient-x" />
 
-      {/* Floating pastel blobs */}
       <div className="absolute top-20 left-10 w-80 h-80 bg-green-300/40 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-32 right-10 w-80 h-80 bg-blue-300/40 rounded-full blur-3xl animate-pulse delay-1000" />
       <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-indigo-300/30 rounded-full blur-3xl animate-pulse delay-700" />
 
-      {/* Fixed Navbar */}
       <Navbar
         onScrollToAgent={scrollToAgent}
         onScrollToCustomer={scrollToCustomer}
       />
 
-      {/* Page Container */}
       <div className="container mx-auto px-4 md:px-8 pt-24 pb-16 text-gray-800">
-        {/* Agent Section */}
         <motion.section
           ref={agentRef}
           initial={{ opacity: 0, y: 20 }}
@@ -49,7 +44,6 @@ export default function Dashboard() {
           </div>
         </motion.section>
 
-        {/* Customer Section */}
         <motion.section
           ref={customerRef}
           initial={{ opacity: 0, y: 20 }}

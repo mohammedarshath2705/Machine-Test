@@ -17,7 +17,7 @@ export default function Agent() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // Fetch agents
+  
   const fetchAgents = async () => {
     try {
       const res = await api.get("/agents");
@@ -32,20 +32,20 @@ export default function Agent() {
     fetchAgents();
   }, []);
 
-  // Add agent
+  
   const addAgent = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await api.post("/agents", { name, email, mobile, password });
       setMessage({ type: "success", text: "Agent added successfully!" });
 
-      // Reset form
+      
       setName("");
       setEmail("");
       setMobile("");
       setPassword("");
 
-      // Refresh list
+      
       fetchAgents();
     } catch (err: any) {
       console.error(err);
@@ -53,7 +53,7 @@ export default function Agent() {
     }
   };
 
-  // Auto-hide message after 3 sec
+  
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(null), 3000);
@@ -69,7 +69,7 @@ export default function Agent() {
       viewport={{ once: true }}
       className="bg-blue-200/50 backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8"
     >
-      {/* Notification */}
+      
       {message && (
         <div
           className={`mb-4 p-3 rounded-lg text-white font-medium shadow-md ${
@@ -80,7 +80,7 @@ export default function Agent() {
         </div>
       )}
 
-      {/* Add Agent Form */}
+      
       <form
         onSubmit={addAgent}
         className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4"
@@ -125,7 +125,7 @@ export default function Agent() {
         </button>
       </form>
 
-      {/* Agents List */}
+      
       <h3 className="text-xl font-semibold text-gray-800 mb-4">
         Agents List
       </h3>
