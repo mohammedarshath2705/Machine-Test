@@ -214,9 +214,13 @@ npm run dev
 ```
 ## Credentials 
 
-- **Login** :
+- ### Login :
   -  email : admin1@gmail.com
   -  password : Secret123
+- ### Example CSV for Upload
+   - You can use this sample CSV to test the upload feature :
+     [Download example.csv](assets/example.csv)
+
 
 ## Validation & Error Handling
 
@@ -255,5 +259,6 @@ VITE_API_URL=https://machine-test-fq7p.onrender.com
 
 ### CSV Upload Page
 ![CSV Upload](assets/Csv.png)
+
 
 
