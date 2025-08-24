@@ -15,34 +15,51 @@ export default function Agent() {
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Fetch agents
+  const fetchAgents = async () => {
+    try {
+      const res = await api.get("/agents");
+      setAgents(res.data);
+    } catch (err) {
+      console.error(err);
+      setMessage({ type: "error", text: "Failed to load agents." });
+    }
+  };
+
   useEffect(() => {
-    api
-      .get("/agents")
-      .then((res) => setAgents(res.data))
-      .catch((err) => console.error(err));
+    fetchAgents();
   }, []);
 
   // Add agent
   const addAgent = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await api.post("/agents", {
-        name,
-        email,
-        mobile,
-        password,
-      });
-      setAgents([...agents, res.data]);
+      await api.post("/agents", { name, email, mobile, password });
+      setMessage({ type: "success", text: "Agent added successfully!" });
+
+      // Reset form
       setName("");
       setEmail("");
       setMobile("");
       setPassword("");
-    } catch (err) {
+
+      // Refresh list
+      fetchAgents();
+    } catch (err: any) {
       console.error(err);
+      setMessage({ type: "error", text: err.response?.data?.message || "Failed to add agent." });
     }
   };
+
+  // Auto-hide message after 3 sec
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   return (
     <motion.div
@@ -52,6 +69,17 @@ export default function Agent() {
       viewport={{ once: true }}
       className="bg-blue-200/50 backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8"
     >
+      {/* Notification */}
+      {message && (
+        <div
+          className={`mb-4 p-3 rounded-lg text-white font-medium shadow-md ${
+            message.type === "success" ? "bg-green-500" : "bg-red-500"
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
       {/* Add Agent Form */}
       <form
         onSubmit={addAgent}
