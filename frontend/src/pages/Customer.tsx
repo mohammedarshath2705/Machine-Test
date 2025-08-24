@@ -13,17 +13,24 @@ interface Customer {
 export default function Customer() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Fetch customers
+  const fetchCustomers = async () => {
+    try {
+      const res = await api.get("/customers");
+      setCustomers(res.data);
+    } catch (err) {
+      console.error("Error fetching customers:", err);
+    }
+  };
+
   useEffect(() => {
-    api
-      .get("/customers")
-      .then((res) => setCustomers(res.data))
-      .catch((err) => console.error(err));
+    fetchCustomers();
   }, []);
 
-  // Handle file selection & auto-upload
+  // Handle file upload
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -33,15 +40,27 @@ export default function Customer() {
 
     try {
       setUploading(true);
-      const res = await api.post("/customers/upload", formData, {
+
+      await api.post("/customers/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setCustomers([...customers, ...res.data]); // append new customers
+
+      // ✅ Refresh customers after upload
+      await fetchCustomers();
+
+      setMessage({ type: "success", text: `${file.name} uploaded successfully!` });
+
+      // ✅ Auto-hide after 3s
+      setTimeout(() => setMessage(null), 3000);
     } catch (err) {
       console.error(err);
+      setMessage({ type: "error", text: `Upload failed for ${file?.name}` });
+
+      // ✅ Auto-hide after 3s
+      setTimeout(() => setMessage(null), 3000);
     } finally {
       setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = ""; // reset file input
+      if (fileInputRef.current) fileInputRef.current.value = ""; // reset input
     }
   };
 
@@ -53,8 +72,8 @@ export default function Customer() {
       viewport={{ once: true }}
       className="bg-blue-200/50 backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8"
     >
-      {/* Upload CSV */}
-      <div className="mb-8 flex justify-center">
+      {/* Upload Section */}
+      <div className="mb-6 flex flex-col items-center space-y-3">
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
@@ -70,6 +89,17 @@ export default function Customer() {
           className="hidden"
           onChange={handleFileChange}
         />
+
+        {/* ✅ Upload Message */}
+        {message && (
+          <p
+            className={`text-sm font-medium transition-opacity ${
+              message.type === "success" ? "text-green-700" : "text-red-700"
+            }`}
+          >
+            {message.text}
+          </p>
+        )}
       </div>
 
       {/* Customers List */}

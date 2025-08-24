@@ -1,7 +1,8 @@
+// src/api.ts
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://machine-test-fq7p.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_URL, // comes from .env
 });
 
 api.interceptors.request.use((config) => {
