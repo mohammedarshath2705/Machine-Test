@@ -233,7 +233,7 @@ npm run dev
   - Server errors
 
 ## Video Demonstration
-[Click here to view demo](<Google Drive Link>)
+[Click here to view demo](<https://drive.google.com/file/d/1qeY2-ewril_sC_mfDuwFtEQkAIG8dbOV/view?usp=sharing>)
 
 ## Deployment
 
@@ -259,6 +259,7 @@ VITE_API_URL=https://machine-test-fq7p.onrender.com
 
 ### CSV Upload Page
 ![CSV Upload](assets/Csv.png)
+
 
 
 
