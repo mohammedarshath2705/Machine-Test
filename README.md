@@ -231,5 +231,29 @@ npm run dev
 ## Video Demonstration
 [Click here to view demo](<Google Drive Link>)
 
+## Deployment
+
+- **Backend:** Hosted on Render  
+  - API Base URL: `https://machine-test-fq7p.onrender.com`
+
+- **Frontend:** Hosted on Vercel  
+  - Live URL: `https://machine-test-flax.vercel.app/`
+
+**Notes:**
+- Make sure your frontend is using the deployed backend URL in `.env`:
+```env
+VITE_API_URL=https://machine-test-fq7p.onrender.com
+```
+
+## Screenshots
+
+### Login Page
+![Login Page](assets/Login.png)
+
+### Admin Dashboard and Agent
+![Admin Dashboard](assets/Dashboard.png)
+
+### CSV Upload Page
+![CSV Upload](assets/Csv.png)
 
 
