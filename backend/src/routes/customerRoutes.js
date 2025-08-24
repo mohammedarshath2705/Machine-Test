@@ -1,7 +1,7 @@
 import express from "express";
 import { upload } from "../middleware/uploadMiddleware.js";
 import { getCustomers, getCustomersByAgent, uploadCustomers } from "../controllers/customerController.js";
-import { protect } from "../middleware/authMiddleware.js";  // ✅ import protect
+import { protect } from "../middleware/authMiddleware.js";  
 
 const router = express.Router();
 

@@ -4,14 +4,12 @@ import path from "path";
 import Customer from "../models/Customer.js";
 import Agent from "../models/Agent.js";
 
-// 📌 Upload customers from CSV & assign to agents
 export const uploadCustomers = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    // ✅ File type validation
     const allowedExtensions = [".csv", ".xlsx", ".xls"];
     const ext = path.extname(req.file.originalname).toLowerCase();
     if (!allowedExtensions.includes(ext)) {
@@ -20,7 +18,6 @@ export const uploadCustomers = async (req, res) => {
         .json({ message: "Invalid file type. Only CSV, XLSX, and XLS are allowed." });
     }
 
-    // ✅ Fetch agents
     const agents = await Agent.find();
     if (agents.length === 0) {
       return res.status(400).json({ message: "No agents found. Please add agents first." });
@@ -45,7 +42,6 @@ export const uploadCustomers = async (req, res) => {
             .json({ message: "CSV file is empty or format is incorrect" });
         }
 
-        // ✅ Distribute customers equally among agents (round-robin)
         const distributed = [];
         let agentIndex = 0;
 
@@ -71,8 +67,7 @@ export const uploadCustomers = async (req, res) => {
   }
 };
 
-// 📌 Get all customers with agent info
-// 📌 Get all customers with agent info
+
 export const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find().populate("agent", "name email phone");
@@ -92,7 +87,7 @@ export const getCustomers = async (req, res) => {
 };
 
 
-// 📌 Get customers by specific agent
+
 export const getCustomersByAgent = async (req, res) => {
   try {
     const { agentId } = req.params;

@@ -1,7 +1,6 @@
 import Agent from "../models/Agent.js";
 import Customer from "../models/Customer.js";
 
-// Add a new agent
 export const addAgent = async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
@@ -10,7 +9,6 @@ export const addAgent = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Check if agent already exists
     const exists = await Agent.findOne({ $or: [{ email }, { mobile }] });
     if (exists) {
       return res
@@ -20,7 +18,6 @@ export const addAgent = async (req, res) => {
 
     const agent = await Agent.create({ name, email, mobile, password });
 
-    // Hide password in response
     res.status(201).json({
       _id: agent._id,
       name: agent.name,
@@ -32,17 +29,15 @@ export const addAgent = async (req, res) => {
   }
 };
 
-// Get all agents
 export const getAgents = async (req, res) => {
   try {
-    const agents = await Agent.find().select("-password"); // ✅ don’t expose password
+    const agents = await Agent.find().select("-password"); 
     res.json(agents);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get customers assigned to logged-in agent
 export const getMyCustomers = async (req, res) => {
   try {
     const customers = await Customer.find({ agent: req.user._id });
